@@ -65,4 +65,5 @@
     <div id="map-canvas"></div>
   </body>
 </html>
-aHR0cDovL3d3dy5idWVub3NhaXJlc2JhY2hlLmNvbS8K
+
+ aHR0cDovL3d3dy5idWVub3NhaXJlc2JhY2hlLmNvbS8K
