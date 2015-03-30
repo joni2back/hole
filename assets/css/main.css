@@ -1,0 +1,7 @@
+#map-canvas {
+    height: 450px;
+}
+
+input, select, button, .modal, .well {
+    border-radius: 0!important;
+}

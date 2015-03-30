@@ -8,14 +8,39 @@
         $scope.geocoder = new google.maps.Geocoder();
         $scope.defaultPos = new google.maps.LatLng($scope.lat, $scope.lng);
         $scope.mapOptions = {
-            zoom: 12,
+            zoom: 13,
             center: $scope.defaultPos
         }
         $scope.markers = [];
-        $scope.address = '';
+        $scope.reportForm = {
+            address: null,
+            zone: null,
+            size: null,
+            detail: null
+        };
+
+        $scope.holeSizes = [
+            {
+                label: "Chico",
+                value: 1
+            },
+            {
+                label: "Mediano",
+                value: 2
+            },
+            {
+                label: "Grande",
+                value: 3
+            },
+            {
+                label: "Enorme",
+                value: 4
+            },
+        ]
 
         $scope.init = function() {
             $scope.map = new google.maps.Map(document.getElementById('map-canvas'), $scope.mapOptions);
+            $scope.mapReport = new google.maps.Map(document.getElementById('map-canvas-report'), $scope.mapOptions);
             $scope.bindEvents();
         };
 
@@ -34,8 +59,8 @@
         };
 
         $scope.addMarkerByInput = function() {
-            $scope.address && $scope.addMarkerByAddress($scope.address);
-            $scope.address = '';
+            $scope.reportForm.address && $scope.addMarkerByAddress($scope.reportForm.address);
+            $scope.reportForm.address = '';
         };
 
         $scope.addMarkerByAddress = function(address) {
@@ -56,28 +81,29 @@
 
         $scope.parseAjax = function() {
             var self = $scope;
-            return $.getJSON('list.json').success(function(data) {
+            return $http.get('list.json').success(function(data) {
                 data && data.length && data.forEach(function(marker) {
                     self.addMarker(marker);
                 });
             });
         };
 
-
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                var infowindow = new google.maps.InfoWindow({
-                    map: $scope.map,
-                    position: pos,
-                    content: 'Location found using HTML5.'
+        $scope.getLocationByGeolocation = function(success, error) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    typeof success === 'function' && success(pos, position);
+                }, function() {
+                    typeof error === 'function' && error();
                 });
-                $scope.map.setCenter(pos);
-            }, function() {
-                handleNoGeolocation(true);
+            }
+        };
+
+        $scope.report = function(success, error) {
+            $scope.addMarkerByInput();
+            return $http.get('report').success(function(data) {
             });
-        }
+        };
 
         google.maps.event.addDomListener(window, 'load', $scope.init);
 
