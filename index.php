@@ -1,69 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="HoleApp">
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple markers</title>
+    <title></title>
     <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
+      #map-canvas {
+        height: 600px;
       }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-    <script>
 
-    var App = function() {
-        var self = this;
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="main.js"></script>
+    <script src="controller.js"></script>
 
-        this.lat = -32.9526905;
-        this.lng = -60.6982761;
-        this.map = null;
-        this.geocoder = new google.maps.Geocoder();
-        this.defaultPos = new google.maps.LatLng(this.lat, this.lng);
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
-        this.mapOptions = {
-            zoom: 12,
-            center: this.defaultPos
-        }
-
-        this.init = function() {
-            this.map = new google.maps.Map(document.getElementById('map-canvas'), this.mapOptions);
-            console.info('initin', this);
-        };
-
-        this.markers = [];
-
-        this.addAddressToMap = function(response, status) {
-            if (! response) {
-                return;
-            }
-            var marker = new google.maps.Marker({
-                position: response[0].geometry.location,
-                map: this.map,
-                title: 'hola'
-            });
-            //marker.setMap(this.map);
-        };
-
-        this.add = function(address) {
-            var request = {};
-            request.address =  address + ", Rosario";
-            this.geocoder.geocode(request, this.addAddressToMap.bind(this));
-        };
-         
-    };
-
-    var app = new App();
-
-    google.maps.event.addDomListener(window, 'load', app.init.bind(app));
-
-    </script>
   </head>
-  <body>
-    <div id="map-canvas"></div>
+  <body ng-controller="HoleAppCtrl">
+
+  <div class="container">
+      <div class="row">
+          
+          <div class="col-md-2">
+              <input ng-model="address" ng-enter="addMarkerByInput()">
+              {{ address }}
+          </div>
+          <div class="col-md-10">
+              <div class="col-md-12" id="map-canvas"></div>
+          </div>
+
+      </div>
+  </div>
+
   </body>
 </html>
 
- aHR0cDovL3d3dy5idWVub3NhaXJlc2JhY2hlLmNvbS8K
+aHR0cDovL3d3dy5idWVub3NhaXJlc2JhY2hlLmNvbS8K

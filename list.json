@@ -1,0 +1,18 @@
+[
+
+    {
+        "lat": -32.9463094,
+        "lng": -60.6686454,
+        "size": 2,
+        "title": "biggest",
+        "content": "is the biggest ever"
+    },
+    {
+        "lat": -32.9330431,
+        "lng": -60.71292010000002,
+        "size": 1,
+        "title": "small",
+        "content": "is the mini hole ever"
+    }
+
+]
