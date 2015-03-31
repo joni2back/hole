@@ -89,8 +89,10 @@
 
         $scope.parseAjax = function() {
             var self = $scope;
-            return $http.get('api/list.json').success(function(data) {
+            return $http.get('backend/web/list').success(function(data) {
                 data && data.length && data.forEach(function(marker) {
+                    marker.lat = parseFloat(marker.lat);
+                    marker.lng = parseFloat(marker.lng);
                     self.addMarker(marker, marker);
                 });
             });

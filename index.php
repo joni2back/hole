@@ -22,6 +22,9 @@
   <div class="report-nav">
       <button class="btn btn-lg btn-danger" ng-click="openModalReport()">Reportar</button>
   </div>
+  <div class="title-nav">
+    <h2>mapa cosmic</h2>
+  </div>
 
   <div ng-include="'assets/templates/report-form.html'"></div>
   <div class="hide">

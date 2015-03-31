@@ -13,6 +13,13 @@ input, select, button, .modal, .modal-content, .well {
     border-radius: 0!important;
 }
 
+.title-nav {
+    position: absolute;
+    top:35px;
+    left:100px;
+    z-index:99;
+}
+
 .report-nav {
 	position: absolute;
 	top:35px;
@@ -21,6 +28,7 @@ input, select, button, .modal, .modal-content, .well {
 	height:100px;
 	text-align:right;
 }
+
 .report-nav > button {
     font-weight: bold;
 }
