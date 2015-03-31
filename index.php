@@ -18,21 +18,14 @@
   </head>
   <body ng-controller="HoleAppCtrl">
 
-  <div class="container">
-      <h2>angular-stackoverflow</h2>
-      <hr />
-      <div class="well">
-        <div class="row">
-            
-            <div class="col-md-2">
-                <div ng-include="'assets/templates/report-form.html'"></div>
-            </div>
-            <div class="col-md-10">
-                <div class="col-md-12" id="map-canvas"></div>
-            </div>
+  <div class="main" id="map-canvas"></div>
+  <div class="report">
+    <button class="btn btn-danger" ng-click="report()">Reportar</button>    
 
-        </div>
-      </div>
+  </div>
+
+  <div class="modal">
+    <div ng-include="'assets/templates/report-form.html'"></div>
   </div>
 
   </body>

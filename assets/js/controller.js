@@ -9,7 +9,8 @@
         $scope.defaultPos = new google.maps.LatLng($scope.lat, $scope.lng);
         $scope.mapOptions = {
             zoom: 13,
-            center: $scope.defaultPos
+            center: $scope.defaultPos,
+            mapTypeId: google.maps.MapTypeId.TERRAIN
         }
         $scope.markers = [];
         $scope.reportForm = {
@@ -40,7 +41,6 @@
 
         $scope.init = function() {
             $scope.map = new google.maps.Map(document.getElementById('map-canvas'), $scope.mapOptions);
-            $scope.mapReport = new google.maps.Map(document.getElementById('map-canvas-report'), $scope.mapOptions);
             $scope.bindEvents();
         };
 
@@ -104,6 +104,13 @@
             return $http.get('report').success(function(data) {
             });
         };
+
+        $scope.reportGeo = function() {
+            $scope.getLocationByGeolocation(function(pos) {
+                console.info(pos);
+                $scope.addMarker(pos);
+            });
+        };        
 
         google.maps.event.addDomListener(window, 'load', $scope.init);
 
