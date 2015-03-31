@@ -9,15 +9,18 @@ html, body,
 	width: 100%;
 }
 
-input, select, button, .modal, .well {
+input, select, button, .modal, .modal-content, .well {
     border-radius: 0!important;
 }
 
-.report {
+.report-nav {
 	position: absolute;
-	top:0;
+	top:35px;
 	right:0;
 	width:100px;
 	height:100px;
 	text-align:right;
+}
+.report-nav > button {
+    font-weight: bold;
 }
