@@ -6,6 +6,7 @@
         $scope.map = null;
         $scope.geocoder = new google.maps.Geocoder();
         $scope.defaultPos = new google.maps.LatLng($scope.lat, $scope.lng);
+        $scope.requesting = false;
         $scope.mapOptions = {
             zoom: 13,
             center: $scope.defaultPos,
@@ -20,7 +21,8 @@
             title: '',
             content: '',
             lat: '',
-            lng: ''
+            lng: '',
+            uploadFileList: []
         };
 
         $scope.holeSizes = [
@@ -79,7 +81,8 @@
             var data = {address: addressString + ", Rosario"};
             var internalCallback = function(response, status) {
                 try {
-                    response[0].geometry.location && success(response[0].geometry.location, response);
+                    var pos = response[0].geometry.location;
+                    response[0].geometry.location && success(response, pos);
                 } catch(e) {
                     typeof error === 'function' && error(e);
                 }
@@ -91,8 +94,7 @@
             var marker = new google.maps.Marker({
                 position: pos,
                 map: $scope.map,
-                data: data,
-                icon: 'assets/img/roadtype_gravel2.png'
+                data: data
             });
 
             google.maps.event.addListener(marker, 'click', function() {
@@ -106,8 +108,8 @@
 
         $scope.parseAjax = function() {
             var self = $scope;
-            return $http.get('backend/web/list').success(function(data) {
-                data && data.length && data.forEach(function(marker) {
+            return $http.get('backend/web/list').success(function(response) {
+                response && response.length && response.forEach(function(marker) {
                     marker.lat = parseFloat(marker.lat);
                     marker.lng = parseFloat(marker.lng);
                     self.addMarker(marker, marker);
@@ -146,17 +148,26 @@
             });
         };
 
+        $scope.isPosFromRosario = function(pos) {
+            return (pos.k+"").match('^\-(32|33)') && (pos.D+"").match('^\-(60)');
+        };
+
+        $scope.parseValuesByMapsResult = function(results, pos) {
+            $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
+            $scope.reportForm.zone = results[0].address_components[2].long_name;
+            if ($scope.isPosFromRosario(pos)) {
+                $scope.reportForm.lat = pos.k;
+                $scope.reportForm.lng = pos.D;
+            } else {
+                $scope.reportForm.lat = '';
+                $scope.reportForm.lng = '';
+            }
+            $scope.$apply();
+        };
+
         $scope.touchBindAddressInput = function() {
-            $scope.getPosByAddress($scope.reportForm.address, function(pos, results) {
-                $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
-                if ((pos.k+"").match('^\-(32|33)') && (pos.D+"").match('^\-(60)')) {
-                    $scope.reportForm.lat = pos.k;
-                    $scope.reportForm.lng = pos.D;
-                } else {
-                    $scope.reportForm.lat = '';
-                    $scope.reportForm.lng = '';
-                }
-                var pid = setInterval(function() { pid && clearInterval(pid);}, 50);
+            $scope.getPosByAddress($scope.reportForm.address, function(results, pos) {
+                $scope.parseValuesByMapsResult(results, pos);
             }, function(e) {
             });
         };
@@ -164,24 +175,44 @@
         $scope.touchUseMyActualGeo = function() {
             $scope.reportForm.address = 'Obteniendo....';
             $scope.getAddressByGeolocation(function(addressString, results, pos) {
-                $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
                 $scope.reportForm.address = addressString.split(',')[0];
-                $scope.reportForm.lat = pos.k;
-                $scope.reportForm.lng = pos.D;
-                $scope.$apply();
+                $scope.parseValuesByMapsResult(results, pos);
             });
         };
 
-        $scope.report = function(success, error) {
+        $scope.showInputExceptionError = function(reponse) {
+            if (reponse && reponse.type && reponse.type.match('InputException')) {
+                angular.forEach(reponse.errors, function(field) {
+                    $('input, select')
+                        .filter('[ng-model$="' +field.fieldName+ '"]')
+                        .parents('.form-group').find('.input-error')
+                        .html(field.message);
+                });
+            }
+        };
+
+        $scope.report = function() {
             $('.input-error').html('');
-            return $http.post('backend/web/report', $scope.reportForm).success(function(data) {
+            var form = new FormData();
+
+            angular.forEach($scope.reportForm, function(value, key) {
+                form.append(key, value);
+            });
+
+            angular.forEach($scope.reportForm.uploadFileList, function(value) {
+                form.append('file', value);
+            });
+
+            $scope.requesting = true;
+            return $http.post('backend/web/report', form, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function(response) {
+                $scope.requesting = false;
                 $scope.reportDone = true;
-            }).error(function(data) {
-                if (data.type.match('InputException')) {
-                    angular.forEach(data.errors, function(field) {
-                        $('input, select').filter('[ng-model$="' +field.fieldName+ '"]').parent().find('.input-error').html(field.message);
-                    });
-                }
+            }).error(function(response) {
+                $scope.showInputExceptionError(response);
+                $scope.requesting = false;
             });
         };
 

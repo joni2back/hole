@@ -18,7 +18,7 @@
   </head>
   <body ng-controller="HoleAppCtrl">
 
-  <div class="main " id="map-canvas"></div>
+  <div class="main" id="map-canvas"></div>
   <div class="report-nav">
       <button class="btn btn-lg btn-danger" ng-click="openModalReport()">Reportar</button>
   </div>
@@ -31,7 +31,7 @@
       <div id="info-window">
         <h4>{{ infoWindow.data.title }}</h4>
         <p>{{ infoWindow.data.content }}</p>
-        <img ng-show="infoWindow.data.image" ng-src="{{ infoWindow.data.image }}" alt=""/>
+        <img ng-show="infoWindow.data.photo" ng-src="{{ 'backend/web/uploads/' + infoWindow.data.photo }}" alt=""/>
       </div>
   </div>
 

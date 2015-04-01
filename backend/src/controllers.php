@@ -3,12 +3,13 @@
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Hole\Exception\InputException;
+use PHPImageWorkshop\ImageWorkshop;
 
 $app->before(function (Request $request) {
-    //if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+    if (! $request->files) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
-    //}
+    }
 });
 
 $app->match('/', function () use ($app) {
@@ -37,6 +38,17 @@ $app->post('/report', function (Request $request) use ($app) {
     !$zone && $oExp->addFieldError('zone');
     !$size && $oExp->addFieldError('size');
 
+    //$oExp->throwOnError();
+
+    $oUploadedFile = $request->files->get('file');
+    $filename = '';
+    if ($oUploadedFile) {
+        $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());
+        $image->resizeInPixel(320, null, true);
+        $filename = md5(microtime()) . '.jpg';
+        $image->save(UPLOADS_DIR, $filename);
+    }
+
     $oExp->throwOnError();
 
     $response = $app['db']->insert('holes', array(
@@ -46,6 +58,7 @@ $app->post('/report', function (Request $request) use ($app) {
         'address' => $address,
         'zone' => $zone,
         'size' => $size,
+        'photo' => $filename
     ));
     return new JsonResponse($response);
 });

@@ -13,9 +13,8 @@
                     <form>
                       <div class="form-group">
                         <label>Direccion</label>
-
                         <div class="input-group">
-                            <input class="form-control" ng-model="reportForm.address" ng-keyup="touchBindAddressInput()" placeholder="Ej: Cordoba 1050">
+                            <input class="form-control" ng-model="reportForm.address" ng-change="touchBindAddressInput()" placeholder="Ej: Cordoba 1050">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" ng-click="touchUseMyActualGeo()">Obtener ubicacion</button>
                             </span>
@@ -31,7 +30,7 @@
 
                       <div class="form-group">
                         <label>Tamaño</label>
-                        <select class="form-control" ng-options="obj.value as obj.label for obj in holeSizes" ng-model="reportForm.size"></select>
+                        <select class="form-control" ng-init="reportForm.size=holeSizes[0].value" ng-options="obj.value as obj.label for obj in holeSizes" ng-model="reportForm.size"></select>
                         <span class="label label-danger input-error"></span>
                       </div>
 
@@ -43,7 +42,7 @@
 
                       <div class="form-group">
                         <label>Foto</label>
-                        <input type="file">
+                        <input type="file" class="form-control" data-ng-file="reportForm.uploadFileList"/>
                         <span class="label label-danger input-error"></span>
                       </div>
                     </form>
@@ -59,8 +58,13 @@
                     <span class="badge" ng-show="reportForm.lat">{{reportForm.visibleAddress}} ({{reportForm.lat}}, {{reportForm.lng}})</span>
                 </div>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" ng-click="report()">Reportar</button>
+                    <div ng-show="!reportDone">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" ng-click="report()">Reportar</button>
+                    </div>
+                    <div ng-show="reportDone">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
