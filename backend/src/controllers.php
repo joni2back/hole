@@ -23,7 +23,7 @@ $app->match('/list', function () use ($app) {
 
 $app->post('/report', function (Request $request) use ($app) {
 
-    $oExp = new InputException();
+    $oIExp = new InputException();
 
     $lat = $request->request->get('lat');
     $lng = $request->request->get('lng');
@@ -32,24 +32,26 @@ $app->post('/report', function (Request $request) use ($app) {
     $zone = $request->request->get('zone');
     $size = $request->request->get('size');
 
-    !($lat || $lng) && $oExp->addFieldError('lat', 'No se pudo determinar la ubicacion en el mapa');
-    !$title && $oExp->addFieldError('title');
-    !$address && $oExp->addFieldError('address');
-    !$zone && $oExp->addFieldError('zone');
-    !$size && $oExp->addFieldError('size');
-
-    //$oExp->throwOnError();
-
+    !($lat || $lng) && $oIExp->addFieldError('lat', 'No se pudo determinar la ubicacion en el mapa');
+    !$title && $oIExp->addFieldError('title');
+    !$address && $oIExp->addFieldError('address');
+    !$zone && $oIExp->addFieldError('zone');
+    !$size && $oIExp->addFieldError('size');
+    $oIExp->throwOnError();
     $oUploadedFile = $request->files->get('file');
-    $filename = '';
+    $filename = null;
     if ($oUploadedFile) {
-        $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());
-        $image->resizeInPixel(320, null, true);
-        $filename = md5(microtime()) . '.jpg';
-        $image->save(UPLOADS_DIR, $filename);
+        try {
+            $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());
+            $image->resizeInPixel(320, null, true);
+            $filename = md5(microtime()) . '.jpg';
+            $image->save(UPLOADS_DIR, $filename);
+        } catch (\Exception $oExp) {
+            $oIExp->addFieldError('size');
+        }
     }
 
-    $oExp->throwOnError();
+    $oIExp->throwOnError();
 
     $response = $app['db']->insert('holes', array(
         'lat' => $lat,

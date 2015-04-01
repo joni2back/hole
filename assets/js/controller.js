@@ -32,6 +32,16 @@
             {label: "Enorme", value: 4}
         ];
 
+        $scope.findHoleByValue = function(id) {
+            var result;
+            angular.forEach($scope.holeSizes, function(obj) {
+                if (obj.value == id) {
+                    result = obj;
+                }
+            });
+            return result;
+        };
+
         $scope.infoWindow = {
             object: null,
             data: null
@@ -210,6 +220,11 @@
             }).success(function(response) {
                 $scope.requesting = false;
                 $scope.reportDone = true;
+                if (response) {
+                    //update map by aajax clearing and requesting
+                    response && window.location.reload();
+                }
+
             }).error(function(response) {
                 $scope.showInputExceptionError(response);
                 $scope.requesting = false;
