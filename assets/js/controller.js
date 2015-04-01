@@ -11,15 +11,16 @@
             center: $scope.defaultPos,
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             streetViewControl: false
-        }
+        };
         $scope.markers = [];
         $scope.reportForm = {
-            address: null,
-            zone: null,
-            size: null,
-            detail: null,
-            lat: null,
-            lng: null
+            address: '',
+            zone: '',
+            size: '',
+            title: '',
+            content: '',
+            lat: '',
+            lng: ''
         };
 
         $scope.holeSizes = [
@@ -32,7 +33,7 @@
         $scope.infoWindow = {
             object: null,
             data: null
-        }
+        };
 
         $scope.init = function() {
             $scope.map = new google.maps.Map(document.getElementById('map-canvas'), $scope.mapOptions);
@@ -55,10 +56,7 @@
         };
 
         $scope._parseMarkerByAddress = function(response, status) {
-            try {
-                response[0].geometry.location && $scope.addMarker(response[0].geometry.location);
-            } catch(error) {
-            }
+
         };
 
         $scope.addMarkerByInput = function() {
@@ -68,21 +66,40 @@
 
         $scope.addMarkerByAddress = function(addressString) {
             var data = {address: addressString + ", Rosario"};
-            $scope.geocoder.geocode(data, $scope._parseMarkerByAddress.bind($scope));
+            var internalCallback = function(response, status) {
+                try {
+                    response[0].geometry.location && $scope.addMarker(response[0].geometry.location);
+                } catch(e) {
+                }
+            };
+            $scope.geocoder.geocode(data, internalCallback);
+        };
+
+        $scope.getPosByAddress = function(addressString, success, error) {
+            var data = {address: addressString + ", Rosario"};
+            var internalCallback = function(response, status) {
+                try {
+                    response[0].geometry.location && success(response[0].geometry.location, response);
+                } catch(e) {
+                    typeof error === 'function' && error(e);
+                }
+            };
+            $scope.geocoder.geocode(data, internalCallback);
         };
 
         $scope.addMarker = function(pos, data) {
             var marker = new google.maps.Marker({
                 position: pos,
                 map: $scope.map,
-                data: data
+                data: data,
+                icon: 'assets/img/roadtype_gravel2.png'
             });
-  
+
             google.maps.event.addListener(marker, 'click', function() {
                 $scope.infoWindow.data = data;
                 $scope.$apply();
                 $scope.infoWindow.object.open($scope.map, marker);
-            }); 
+            });
 
             $scope.markers.push(marker);
         };
@@ -129,9 +146,25 @@
             });
         };
 
+        $scope.touchBindAddressInput = function() {
+            $scope.getPosByAddress($scope.reportForm.address, function(pos, results) {
+                $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
+                if ((pos.k+"").match('^\-(32|33)') && (pos.D+"").match('^\-(60)')) {
+                    $scope.reportForm.lat = pos.k;
+                    $scope.reportForm.lng = pos.D;
+                } else {
+                    $scope.reportForm.lat = '';
+                    $scope.reportForm.lng = '';
+                }
+                var pid = setInterval(function() { pid && clearInterval(pid);}, 50);
+            }, function(e) {
+            });
+        };
+
         $scope.touchUseMyActualGeo = function() {
             $scope.reportForm.address = 'Obteniendo....';
             $scope.getAddressByGeolocation(function(addressString, results, pos) {
+                $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
                 $scope.reportForm.address = addressString.split(',')[0];
                 $scope.reportForm.lat = pos.k;
                 $scope.reportForm.lng = pos.D;
@@ -140,8 +173,15 @@
         };
 
         $scope.report = function(success, error) {
-            return $http.post('api/report', $scope.reportForm).success(function(data) {
-                $scope.closeModalReport();
+            $('.input-error').html('');
+            return $http.post('backend/web/report', $scope.reportForm).success(function(data) {
+                $scope.reportDone = true;
+            }).error(function(data) {
+                if (data.type.match('InputException')) {
+                    angular.forEach(data.errors, function(field) {
+                        $('input, select').filter('[ng-model$="' +field.fieldName+ '"]').parent().find('.input-error').html(field.message);
+                    });
+                }
             });
         };
 
@@ -150,7 +190,7 @@
                 console.info(pos);
                 $scope.addMarker(pos);
             });
-        };        
+        };
 
         $scope.openModalReport = function() {
             $('#report').modal('show');

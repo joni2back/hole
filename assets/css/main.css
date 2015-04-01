@@ -1,4 +1,4 @@
-html, body, 
+html, body,
 #map-canvas {
     height: 100%;
     margin:0;
@@ -9,7 +9,7 @@ html, body,
 	width: 100%;
 }
 
-input, select, button, .modal, .modal-content, .well {
+input, select, button, .modal, .modal-content, .well, .alert {
     border-radius: 0!important;
 }
 
@@ -31,4 +31,8 @@ input, select, button, .modal, .modal-content, .well {
 
 .report-nav > button {
     font-weight: bold;
+}
+
+.mb0 {
+    margin-bottom:0!important;
 }
