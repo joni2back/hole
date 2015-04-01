@@ -118,12 +118,14 @@
 
         $scope.parseAjax = function() {
             var self = $scope;
+            $scope.requesting = true;
             return $http.get('backend/web/list').success(function(response) {
                 response && response.length && response.forEach(function(marker) {
                     marker.lat = parseFloat(marker.lat);
                     marker.lng = parseFloat(marker.lng);
                     self.addMarker(marker, marker);
                 });
+                $scope.requesting = false;
             });
         };
 

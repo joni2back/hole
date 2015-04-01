@@ -13,14 +13,14 @@
     <script src="assets/js/controller.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=1">
 
   </head>
   <body ng-controller="HoleAppCtrl">
 
   <div class="main" id="map-canvas"></div>
   <div class="report-nav">
-      <button class="btn btn-lg btn-danger" ng-click="openModalReport()">Reportar</button>
+      <button class="btn btn-lg btn-danger btn-add" ng-click="openModalReport()">+</button>
   </div>
   <div class="title-nav">
     <h2>mapa de rosario</h2>
