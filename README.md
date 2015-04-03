@@ -1,6 +1,4 @@
-hole
---------
-####TODO
+####todo
 - click on map to report
 - fix onreport error
 - mobile fixes
