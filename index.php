@@ -20,10 +20,12 @@
 
   <div class="main" id="map-canvas"></div>
   <div class="report-nav">
-      <button class="btn btn-lg btn-danger btn-add" ng-click="openModalReport()">+</button>
+      <button class="btn btn-material" ng-click="openModalReport()">
+        <i class="glyphicon glyphicon-plus"></i>
+      </button>
   </div>
   <div class="title-nav">
-    <h2>mapa de rosario</h2>
+    <h2>mapa de rosario <i class="glyphicon glyphicon-chevron-up"></i></h2>
   </div>
 
   <div ng-include="'assets/templates/report-form.html'"></div>
@@ -33,7 +35,9 @@
         <p>{{ infoWindow.data.content }}</p>
         <p>{{ infoWindow.data.address }} ({{ infoWindow.data.zone }})</p>
         <p>Tamaño: {{ findHoleByValue(infoWindow.data.size).label }}</p>
-        <img ng-show="infoWindow.data.photo" ng-src="{{ 'backend/web/uploads/' + infoWindow.data.photo }}" alt=""/>
+        <div ng-show="infoWindow.data.photo">
+            <img ng-src="{{ infoWindow.data.photo ? 'backend/web/uploads/' + infoWindow.data.photo : '' }}" alt=""/>
+        </div>
       </div>
   </div>
 

@@ -7,6 +7,7 @@
         $scope.geocoder = new google.maps.Geocoder();
         $scope.defaultPos = new google.maps.LatLng($scope.lat, $scope.lng);
         $scope.requesting = false;
+        $scope.reportStatus = 'main';
         $scope.mapOptions = {
             zoom: 13,
             center: $scope.defaultPos,
@@ -193,13 +194,15 @@
         };
 
         $scope.showInputExceptionError = function(reponse) {
-            if (reponse && reponse.type && reponse.type.match('InputException')) {
+            if (reponse && reponse.type && reponse.type.match('InputException$')) {
                 angular.forEach(reponse.errors, function(field) {
                     $('input, select')
-                        .filter('[ng-model$="' +field.fieldName+ '"]')
+                        .filter('[ng-file$="' +field.fieldName+ '"], [ng-model$="' +field.fieldName+ '"]')
                         .parents('.form-group').find('.input-error')
                         .html(field.message);
                 });
+            } else if (reponse && reponse.type && reponse.type.match('Exception')) {
+                window.alert(reponse.errors[0]);
             }
         };
 
@@ -212,16 +215,17 @@
             });
 
             angular.forEach($scope.reportForm.uploadFileList, function(value) {
-                form.append('file', value);
+                form.append('uploadFileList', value);
             });
 
             $scope.requesting = true;
+            $scope.reportStatus = 'requesting';
             return $http.post('backend/web/report', form, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).success(function(response) {
                 $scope.requesting = false;
-                $scope.reportDone = true;
+                $scope.reportStatus = 'done';
                 if (response) {
                     //update map by aajax clearing and requesting
                     response && window.location.reload();
@@ -229,13 +233,13 @@
 
             }).error(function(response) {
                 $scope.showInputExceptionError(response);
+                $scope.reportStatus = 'fail';
                 $scope.requesting = false;
             });
         };
 
         $scope.reportGeo = function() {
             $scope.getPosByGeolocation(function(pos) {
-                console.info(pos);
                 $scope.addMarker(pos);
             });
         };
@@ -249,6 +253,6 @@
         };
 
         google.maps.event.addDomListener(window, 'load', $scope.init);
-
+        scope=$scope;//only for dev
     }]);
 })();

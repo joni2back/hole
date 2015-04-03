@@ -9,14 +9,14 @@
                 <h4 class="modal-title">Reportar</h4>
             </div>
             <div class="modal-body">
-                <div ng-show="!reportDone">
+                <div ng-show="reportStatus != 'done'">
                     <form>
                       <div class="form-group">
                         <label>Direccion</label>
                         <div class="input-group">
                             <input class="form-control" ng-model="reportForm.address" ng-change="touchBindAddressInput()" placeholder="Ej: Cordoba 1050">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" ng-click="touchUseMyActualGeo()">Obtener ubicacion</button>
+                                <button class="btn btn-info" type="button" ng-click="touchUseMyActualGeo()">Ubicacion actual</button>
                             </span>
                         </div>
                         <span class="label label-danger input-error"></span>
@@ -40,14 +40,27 @@
                         <span class="label label-danger input-error"></span>
                       </div>
 
-                      <div class="form-group">
-                        <label>Foto</label>
-                        <input type="file" class="form-control" data-ng-file="reportForm.uploadFileList"/>
+                      <div class="form-group mb0">
+                        <div class="clearfix">
+                            <div class="relative pull-left">
+                                <button class="btn btn-material" ng-click="clickCameraUpload()" style="position:absolute;top:0;left:0">
+                                    <i class="glyphicon glyphicon-camera"></i>
+                                </button>
+                                <input type="file" class="form-control transparent pointer" ng-file="reportForm.uploadFileList"/>
+                            </div>
+                            <div class="pull-left">
+                                <span class="label label-info">{{ reportForm.uploadFileList[0].name }}</span>
+                            </div>
+                        </div>
                         <span class="label label-danger input-error"></span>
+                      </div>
+
+                      <div class="" ng-show="reportForm.visibleAddress && reportForm.lat">
+                        Se reportara: {{reportForm.visibleAddress}} ({{reportForm.lat}}, {{reportForm.lng}})
                       </div>
                     </form>
                 </div>
-                <div ng-show="reportDone">
+                <div ng-show="reportStatus == 'done'">
                     <div class="alert alert-success mb0">
                         Se ha reportado con exito
                     </div>
@@ -55,20 +68,19 @@
             </div>
             <div class="modal-footer">
                 <div class="pull-left">
-                    <span class="badge" ng-show="reportForm.lat">{{reportForm.visibleAddress}} ({{reportForm.lat}}, {{reportForm.lng}})</span>
+                    <div ng-show="reportStatus == 'fail'">
+                        <span class="badge">Ocurrio un error al reportar</span>
+                    </div>
                 </div>
                 <div class="pull-right">
-                    <div ng-show="!reportDone">
-                        <div ng-show="requesting">
-                            <span class="badge">Cargando.. espere un momento</span>
-                        </div>
-
-                        <div ng-show="!requesting">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-primary" ng-click="report()">Reportar</button>
-                        </div>
+                    <div ng-show="reportStatus == 'requesting'">
+                        <span class="badge">Cargando.. espere un momento</span>
                     </div>
-                    <div ng-show="reportDone">
+                    <div ng-show="reportStatus == 'main' || reportStatus == 'fail'">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" ng-click="report()">Reportar</button>
+                    </div>
+                    <div ng-show="reportStatus == 'done'">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

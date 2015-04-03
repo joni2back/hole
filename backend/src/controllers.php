@@ -31,36 +31,45 @@ $app->post('/report', function (Request $request) use ($app) {
     $address = $request->request->get('address');
     $zone = $request->request->get('zone');
     $size = $request->request->get('size');
+    $oUploadedFile = $request->files->get('uploadFileList');
 
-    !($lat || $lng) && $oIExp->addFieldError('lat', 'No se pudo determinar la ubicacion en el mapa');
     !$title && $oIExp->addFieldError('title');
     !$address && $oIExp->addFieldError('address');
     !$zone && $oIExp->addFieldError('zone');
     !$size && $oIExp->addFieldError('size');
-    $oIExp->throwOnError();
-    $oUploadedFile = $request->files->get('file');
+
     $filename = null;
-    if ($oUploadedFile) {
+    if ($oUploadedFile && ($lat && $lng)) {
         try {
             $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());
             $image->resizeInPixel(320, null, true);
             $filename = md5(microtime()) . '.jpg';
             $image->save(UPLOADS_DIR, $filename);
         } catch (\Exception $oExp) {
-            $oIExp->addFieldError('size');
+            $errorMsg = 'Ocurrio un problema al subir la foto, intente nuevamente';
+            $oIExp->addFieldError('uploadFileList', $errorMsg, null, $oExp);
         }
     }
 
     $oIExp->throwOnError();
+    if (! ($lat || $lng)) {
+        throw new \Exception(
+            'La direccion indicada no pertenece al departamento de Rosario '.
+            'o no se pudo determinar su ubicacion en el mapa, por favor verifique.'
+        );
+    }
 
     $response = $app['db']->insert('holes', array(
         'lat' => $lat,
         'lng' => $lng,
         'title' => $title,
+        'content' => '',
         'address' => $address,
         'zone' => $zone,
         'size' => $size,
-        'photo' => $filename
+        'photo' => $filename,
+        'public' => true,
+        'ip' => $request->getClientIp()
     ));
     return new JsonResponse($response);
 });
