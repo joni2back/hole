@@ -22,7 +22,7 @@ $app->match('/list', function () use ($app) {
 });
 
 $app->match('/delete', function (Request $request) use ($app) {
-    
+
     $oIExp = new InputException();
     $id = $request->request->get('id');
 
@@ -46,8 +46,8 @@ $app->post('/report', function (Request $request) use ($app) {
     $oUploadedFile = $request->files->get('uploadFileList');
 
     !$title && $oIExp->addFieldError('title');
-    !$address && $oIExp->addFieldError('address');
-    !$zone && $oIExp->addFieldError('zone');
+    !$address && $oIExp->addFieldError('address', 'Indique un domicilio a ser ubicado en el mapa');
+    !$zone && $oIExp->addFieldError('zone', 'Especifique zona o barrio');
     !$size && $oIExp->addFieldError('size');
 
     $filename = ''; //fix cannot be null

@@ -62,15 +62,34 @@
         };
 
         $scope.bindEvents = function() {
-            google.maps.event.addListener($scope.map, "rightclick", function(event) {
-                var lat = event.latLng.lat();
-                var lng = event.latLng.lng();
+            $(window.document).on('click', function() {
+                $(".dropdown-menu").hide();
             });
+
+            google.maps.event.addListener($scope.map, "click", function(event) {
+                $(".dropdown-menu").hide();
+            });
+
+            google.maps.event.addListener($scope.map, "mouseup", function(event) {
+                var pos = event.latLng;
+
+                $(".dropdown-menu").hide().css({
+                    left: event.pixel.x,
+                    top: event.pixel.y
+                }).show();
+
+                $scope.contextMenuAddress = '...';
+                $scope.getAddressByPos(pos, function(addressString, results) {
+                    $scope.reportForm.address = addressString.split(',')[0];
+                    $scope.contextMenuAddress = addressString.split(',')[0];
+                    $scope.parseValuesByMapsResult(results, pos);
+                    $scope.$apply();
+                });
+                $scope.$apply();
+            });
+
         };
 
-        $scope._parseMarkerByAddress = function(response, status) {
-
-        };
 
         $scope.addMarkerByInput = function() {
             $scope.reportForm.address && $scope.addMarkerByAddress($scope.reportForm.address);
@@ -195,11 +214,11 @@
 
         $scope.showInputExceptionError = function(reponse) {
             if (reponse && reponse.type && reponse.type.match('InputException$')) {
+                $('input, select').removeClass('validation-error');
                 angular.forEach(reponse.errors, function(field) {
-                    $('input, select')
-                        .filter('[ng-file$="' +field.fieldName+ '"], [ng-model$="' +field.fieldName+ '"]')
-                        .parents('.form-group').find('.input-error')
-                        .html(field.message);
+                    var $el = $('input, select').filter('[ng-file$="' +field.fieldName+ '"], [ng-model$="' +field.fieldName+ '"]');
+                    $el.parents('.form-group').find('.input-error').html(field.message);
+                    $el.addClass('validation-error')
                 });
             } else if (reponse && reponse.type && reponse.type.match('Exception')) {
                 window.alert(reponse.errors[0]);
@@ -207,7 +226,6 @@
         };
 
         $scope.removeReport = function(id) {
-            var self = $scope;
             $scope.requesting = true;
             var theData = {
                 id: id
