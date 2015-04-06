@@ -206,6 +206,18 @@
             }
         };
 
+        $scope.removeReport = function(id) {
+            var self = $scope;
+            $scope.requesting = true;
+            var theData = {
+                id: id
+            };
+
+            return $http.post('backend/web/delete', theData).success(function(response) {
+                $scope.requesting = false;
+            });
+        };
+
         $scope.report = function() {
             $('.input-error').html('');
             var form = new FormData();

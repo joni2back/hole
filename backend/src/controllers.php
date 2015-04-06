@@ -6,7 +6,7 @@ use Hole\Exception\InputException;
 use PHPImageWorkshop\ImageWorkshop;
 
 $app->before(function (Request $request) {
-    if (! $request->files) {
+    if (! true) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
     }
@@ -19,6 +19,18 @@ $app->match('/', function () use ($app) {
 $app->match('/list', function () use ($app) {
     $data = $app['db']->fetchAll('SELECT * FROM holes ');
     return new JsonResponse($data);
+});
+
+$app->match('/delete', function (Request $request) use ($app) {
+    
+    $oIExp = new InputException();
+    $id = $request->request->get('id');
+
+    !$id && $oIExp->addFieldError('id');
+    $oIExp->throwOnError();
+
+    $response = $app['db']->delete('holes', array('id' => $id));
+    return new JsonResponse($response);
 });
 
 $app->post('/report', function (Request $request) use ($app) {
@@ -38,7 +50,7 @@ $app->post('/report', function (Request $request) use ($app) {
     !$zone && $oIExp->addFieldError('zone');
     !$size && $oIExp->addFieldError('size');
 
-    $filename = null;
+    $filename = ''; //fix cannot be null
     if ($oUploadedFile && ($lat && $lng)) {
         try {
             $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());

@@ -20,26 +20,16 @@
 
   <div class="main" id="map-canvas"></div>
   <div class="report-nav">
-      <button class="btn btn-material" ng-click="openModalReport()">
+      <button class="btn btn-lg btn-material" ng-click="openModalReport()">
         <i class="glyphicon glyphicon-plus"></i>
       </button>
   </div>
   <div class="title-nav">
-    <h2>mapa de rosario <i class="glyphicon glyphicon-chevron-up"></i></h2>
+    <img src="http://www.monumentoalabandera.gob.ar/images/logo_muni2012.png" alt=""/>
   </div>
 
   <div ng-include="'assets/templates/report-form.html'"></div>
-  <div class="hide">
-      <div id="info-window">
-        <h4>{{ infoWindow.data.title }}</h4>
-        <p>{{ infoWindow.data.content }}</p>
-        <p>{{ infoWindow.data.address }} ({{ infoWindow.data.zone }})</p>
-        <p>Tamaño: {{ findHoleByValue(infoWindow.data.size).label }}</p>
-        <div ng-show="infoWindow.data.photo">
-            <img ng-src="{{ infoWindow.data.photo ? 'backend/web/uploads/' + infoWindow.data.photo : '' }}" alt=""/>
-        </div>
-      </div>
-  </div>
+  <div ng-include="'assets/templates/infowindow.html'"></div>
 
   </body>
 </html>

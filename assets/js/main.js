@@ -29,4 +29,14 @@
             }
         };
     });
+    
+    HoleApp.filter('strLimit', ['$filter', function($filter) {
+        return function(input, limit) {
+            if (input && input.length <= limit) {
+                return input;
+            }
+            return input && $filter('limitTo')(input, limit) + '...';
+        };
+    }]);
+
 })();
