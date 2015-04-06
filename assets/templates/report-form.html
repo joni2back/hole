@@ -11,62 +11,62 @@
             <div class="modal-body">
                 <div ng-show="reportStatus != 'done'">
                     <form>
-                      <div class="form-group">
-                        <label>Direccion</label>
-                        <div class="input-group">
-                            <input class="form-control" ng-model="reportForm.address" ng-change="touchBindAddressInput()" placeholder="Ej: Cordoba 1050">
-                            <span class="input-group-btn">
+                        <div class="form-group">
+                            <label>Direccion</label>
+                            <div class="input-group">
+                                <input class="form-control" ng-model="reportForm.address" ng-change="touchBindAddressInput()" placeholder="Ej: Cordoba 1050">
+                                <span class="input-group-btn">
                                 <button class="btn btn-info" type="button" ng-click="touchUseMyActualGeo()">
                                     <i class="glyphicon glyphicon-screenshot hidden-xs"></i> Ubicacion actual
                                 </button>
                             </span>
-                        </div>
-                        <span class="label label-danger input-error"></span>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Barrio / Zona</label>
-                        <input class="form-control" ng-model="reportForm.zone" placeholder="Ej: Echesortu">
-                        <span class="label label-danger input-error"></span>
-                      </div>
-
-                      <div class="row">
-                          <div class="col-xs-9">
-                            <div class="form-group">
-                                <label>Tamaño</label>
-                                <select class="form-control" ng-init="reportForm.size=holeSizes[0].value" ng-options="obj.value as obj.label for obj in holeSizes" ng-model="reportForm.size"></select>
-                                <span class="label label-danger input-error"></span>
                             </div>
-                          </div>
-                          <div class="col-xs-3">
+                            <span class="label label-danger input-error"></span>
+                        </div>
 
-                              <div class="form-group text-right">
-                                <label>Foto</label>
-                                <div class="clearfix">
-                                    <div class="relative">
-                                        <span class="label label-info" style="position: absolute; right: 37px; top: 10px;">{{ reportForm.uploadFileList[0].name | strLimit : 8 }}</span>
-                                        <button class="btn btn-material" ng-click="clickCameraUpload()" class="pos-abs-top-right">
-                                            <i class="glyphicon glyphicon-camera"></i>
-                                        </button>
-                                        <input type="file" class="form-control transparent pointer pos-abs-top-right" ng-file="reportForm.uploadFileList"/>
-                                    </div>
+                        <div class="form-group">
+                            <label>Barrio / Zona</label>
+                            <input class="form-control" ng-model="reportForm.zone" placeholder="Ej: Echesortu">
+                            <span class="label label-danger input-error"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <div class="form-group">
+                                    <label>Tamaño</label>
+                                    <select class="form-control" ng-init="reportForm.size=holeSizes[0].value" ng-options="obj.value as obj.label for obj in holeSizes" ng-model="reportForm.size"></select>
                                     <span class="label label-danger input-error"></span>
                                 </div>
-                              </div>
+                            </div>
+                            <div class="col-xs-3">
 
-                          </div>
-                      </div>
+                                <div class="form-group text-right">
+                                    <label>Foto</label>
+                                    <div class="clearfix">
+                                        <div class="relative">
+                                            <span class="label label-info" style="position: absolute; right: 37px; top: 10px;">{{ reportForm.uploadFileList[0].name | strLimit : 8 }}</span>
+                                            <button class="btn btn-material" ng-click="clickCameraUpload()" class="pos-abs-top-right">
+                                                <i class="glyphicon glyphicon-camera"></i>
+                                            </button>
+                                            <input type="file" class="form-control transparent pointer pos-abs-top-right" ng-file="reportForm.uploadFileList" />
+                                        </div>
+                                        <span class="label label-danger input-error"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
 
 
-                      <div class="form-group">
-                        <label>Descripcion</label>
-                        <input class="form-control" ng-model="reportForm.title" placeholder="Ej: Se encuentra en la esquina">
-                        <span class="label label-danger input-error"></span>
-                      </div>
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input class="form-control" ng-model="reportForm.title" placeholder="Ej: Se encuentra en la esquina">
+                            <span class="label label-danger input-error"></span>
+                        </div>
 
-                      <div ng-show="reportForm.visibleAddress && reportForm.lat">
-                        <span class="label label-info">Se reportara: {{reportForm.visibleAddress}}</span>
-                      </div>
+                        <div ng-show="reportForm.visibleAddress && reportForm.lat">
+                            <span class="label label-info">Se reportara: {{reportForm.visibleAddress}}</span>
+                        </div>
                     </form>
                 </div>
                 <div ng-show="reportStatus == 'done'">
@@ -87,7 +87,7 @@
                     </div>
                     <div ng-show="reportStatus == 'main' || reportStatus == 'fail'">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-primary" ng-click="report()">Reportar</button>
+                        <button class="btn btn-info" ng-click="report()">Reportar</button>
                     </div>
                     <div ng-show="reportStatus == 'done'">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
