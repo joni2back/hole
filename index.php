@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/styles.map.js"></script>
     <script src="assets/js/controller.js"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -26,7 +27,7 @@
       </button>
   </div>
   <div class="title-nav">
-    <img sxrc="http://www.monumentoalabandera.gob.ar/images/logo_muni2012.png" alt=""/>
+    <img src="http://www.monumentoalabandera.gob.ar/images/logo_muni2012.png" alt=""/>
   </div>
 
   <div ng-include="'assets/templates/report-form.html'"></div>

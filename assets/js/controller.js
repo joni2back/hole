@@ -1,5 +1,5 @@
 (function() {
-    angular.module('HoleApp').controller('HoleAppCtrl', ['$scope', '$http', function($scope, $http) {
+    angular.module('HoleApp').controller('HoleAppCtrl', ['$scope', '$http', '$mapStyles', function($scope, $http, $mapStyles) {
 
         $scope.lat = -32.9526905;
         $scope.lng = -60.6982761;
@@ -9,10 +9,13 @@
         $scope.requesting = false;
         $scope.reportStatus = 'main';
         $scope.mapOptions = {
-            zoom: 13,
-            center: $scope.defaultPos,
+            zoom: 14,
+            maxZoom: 19,
             mapTypeId: google.maps.MapTypeId.TERRAIN,
-            streetViewControl: false
+            center: $scope.defaultPos,
+            streetViewControl: false,
+            draggableCursor: 'crosshair',
+            styles: $mapStyles
         };
         $scope.markers = [];
         $scope.reportForm = {
@@ -117,7 +120,8 @@
             var marker = new google.maps.Marker({
                 position: pos,
                 map: $scope.map,
-                data: data
+                data: data,
+                icon: 'assets/img/pin.png'
             });
 
             google.maps.event.addListener(marker, 'click', function() {
@@ -199,9 +203,12 @@
 
         $scope.touchUseMyActualGeo = function() {
             $scope.reportForm.address = 'Obteniendo....';
+            $scope.reportStatus = 'requesting';
             $scope.getAddressByGeolocation(function(addressString, results, pos) {
                 $scope.reportForm.address = addressString.split(',')[0];
                 $scope.parseValuesByMapsResult(results, pos);
+                $scope.reportStatus = 'main';
+                $scope.$apply();
             });
         };
 
