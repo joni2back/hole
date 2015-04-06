@@ -43,6 +43,7 @@
             return result;
         };
 
+        $scope.infoWindowReport = {};
         $scope.infoWindow = {
             object: null,
             data: null
@@ -59,24 +60,17 @@
                 content: document.getElementById('info-window')
             });
 
+            $scope.infoWindowReport = new google.maps.InfoWindow({
+                content: document.getElementById("info-window-report")
+            });
         };
 
         $scope.bindEvents = function() {
-            $(window.document).on('click', function() {
-                $(".dropdown-menu").hide();
-            });
-
             google.maps.event.addListener($scope.map, "click", function(event) {
-                $(".dropdown-menu").hide();
-            });
-
-            google.maps.event.addListener($scope.map, "mouseup", function(event) {
                 var pos = event.latLng;
 
-                $(".dropdown-menu").hide().css({
-                    left: event.pixel.x,
-                    top: event.pixel.y
-                }).show();
+                $scope.infoWindowReport.setPosition(pos);
+                $scope.infoWindowReport.open($scope.map);
 
                 $scope.contextMenuAddress = '...';
                 $scope.getAddressByPos(pos, function(addressString, results) {
@@ -87,7 +81,6 @@
                 });
                 $scope.$apply();
             });
-
         };
 
 

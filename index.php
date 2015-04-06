@@ -26,16 +26,12 @@
       </button>
   </div>
   <div class="title-nav">
-    <img src="http://www.monumentoalabandera.gob.ar/images/logo_muni2012.png" alt=""/>
+    <img sxrc="http://www.monumentoalabandera.gob.ar/images/logo_muni2012.png" alt=""/>
   </div>
 
   <div ng-include="'assets/templates/report-form.html'"></div>
   <div ng-include="'assets/templates/infowindow.html'"></div>
-
-
-  <ul class="dropdown-menu" role="menu" style="display:none; position:absolute; top:0; left:0;">
-    <li><a href="" ng-click="openModalReport()" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a></li>
-  </ul>
+  <div ng-include="'assets/templates/infowindow-report.html'"></div>
 
   </body>
 </html>
