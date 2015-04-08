@@ -31,32 +31,29 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="form-group">
                                     <label>Tamaño</label>
                                     <select class="form-control" ng-init="reportForm.size=holeSizes[0].value" ng-options="obj.value as obj.label for obj in holeSizes" ng-model="reportForm.size"></select>
                                     <span class="label label-danger input-error"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-
+                            <div class="col-xs-4">
                                 <div class="form-group text-right">
                                     <label class="invisible">Foto</label>
                                     <div class="clearfix">
                                         <div class="relative">
-                                            <span class="label label-info" style="position: absolute; right: 37px; top: 10px;">{{ reportForm.uploadFileList[0].name | strLimit : 8 }}</span>
-                                            <button class="btn btn-material" ng-click="clickCameraUpload()" class="pos-abs-top-right">
+                                            <span class="label label-info" style="position: absolute; right: 47px; top: 8px;">{{ reportForm.uploadFileList[0].name | strLimit : 8 }}</span>
+                                            <button class="btn btn-material btn-photo btn-lg" ng-click="clickCameraUpload()" class="pos-abs-top-right">
                                                 <i class="glyphicon glyphicon-camera"></i>
                                             </button>
-                                            <input type="file" class="form-control transparent pointer pos-abs-top-right" ng-file="reportForm.uploadFileList" />
+                                            <input type="file" accept="image/*" class="form-control transparent pointer pos-abs-top-right" ng-file="reportForm.uploadFileList" />
                                         </div>
-                                        <span class="label label-danger input-error"></span>
+                                        <span class="label label-danger input-error" style="position: absolute;right: 10px;top: 62px;"></span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <label>Descripcion</label>
@@ -64,7 +61,7 @@
                             <span class="label label-danger input-error"></span>
                         </div>
 
-                        <div ng-show="reportForm.visibleAddress && reportForm.lat">
+                        <div ng-show="reportForm.visibleAddress && reportForm.lat && reportStatus != 'requesting'">
                             <span class="label label-info">Se reportara: {{reportForm.visibleAddress}}</span>
                         </div>
                     </form>

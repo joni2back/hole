@@ -29,7 +29,7 @@
             }
         };
     });
-    
+
     HoleApp.filter('strLimit', ['$filter', function($filter) {
         return function(input, limit) {
             if (input && input.length <= limit) {
@@ -39,4 +39,12 @@
         };
     }]);
 
+    var hideAddressBar = function() {
+        if (document.documentElement.scrollHeight < window.outerHeight/window.devicePixelRatio) {
+            document.documentElement.style.height = (window.outerHeight/window.devicePixelRatio) + 'px';
+        }
+        setTimeout(window.scrollTo(1,1), 0);
+    };
+    window.addEventListener("load", hideAddressBar);
+    window.addEventListener("orientationchange", hideAddressBar);
 })();

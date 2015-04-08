@@ -26,10 +26,9 @@ select {
 }
 .report-nav {
   position:absolute;
-  top:7px;
+  bottom:10px;
   right:10px;
   width:100px;
-  height:100px;
   text-align:right;
 }
 .report-nav>button {
@@ -44,26 +43,38 @@ select {
   cursor:pointer;
   box-shadow:0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
   border-radius:100%!important;
-  background:#d9534f;
   background:#5BC0DE;
   color:#fff;
   outline:0;
   padding:7px 10px;
 }
 .btn-material.btn-lg {
-  background:#d9534f;
   padding:12px 16px;
   font-size:26px;
   width:56px;
   height:56px;
 }
 .btn-material:hover,.btn-material:focus {
-  background:#D8615E;
+  background:#46BBDD;
   color:#fff!important;
   outline:0;
 }
 .btn-material i {
   top:1px;
+}
+.btn-material.btn-lg i {
+  top: 3px;
+}
+.btn-danger {
+  background:#d9534f;
+}
+.btn-danger:hover, .btn-danger:focus {
+    background:#D8615E;
+}
+.btn-photo {
+  margin-top: -15px;
+  position: absolute;
+  right: 0;
 }
 .relative {
   position:relative;
@@ -72,6 +83,7 @@ select {
   min-height:50px;
   max-width:56px;
   outline:0;
+  top:-12px;
 }
 .pos-abs-top-right {
   position:absolute;
@@ -122,6 +134,9 @@ select {
   background:#5BC0DE;
   color:#FFF;
 }
+.modal .modal-content {
+    border:none;
+}
 .modal .modal-header .close {
   margin-top:-2px;
   color:#FFF;
@@ -139,4 +154,7 @@ select {
 }
 .invisible {
     visibility: hidden;
+}
+.modal .modal-footer .badge {
+    margin-top: 9px;
 }

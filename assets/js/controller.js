@@ -10,12 +10,19 @@
         $scope.reportStatus = 'main';
         $scope.mapOptions = {
             zoom: 14,
-            maxZoom: 19,
+            maxZoom: 20,
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             center: $scope.defaultPos,
-            streetViewControl: false,
             draggableCursor: 'crosshair',
-            styles: $mapStyles
+            styles: $mapStyles,
+            streetViewControl: false,
+            mapTypeControl: false,
+            zoomControl: false,
+            disableDefaultUI: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.LARGE,
+                position: google.maps.ControlPosition.TOP_RIGHT
+            }
         };
         $scope.markers = [];
         $scope.reportForm = {

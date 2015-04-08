@@ -22,6 +22,8 @@ $app->match('/list', function () use ($app) {
 });
 
 $app->match('/delete', function (Request $request) use ($app) {
+    $data = json_decode($request->getContent(), true);
+    $request->request->replace(is_array($data) ? $data : array());//ponerlo en el before
 
     $oIExp = new InputException();
     $id = $request->request->get('id');

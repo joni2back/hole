@@ -2,7 +2,9 @@
 <html ng-app="HoleApp">
 
 <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" >
     <meta charset="utf-8">
     <title>HoleApp</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
@@ -14,7 +16,7 @@
     <script src="assets/js/controller.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/main.css?v=1">
+    <link rel="stylesheet" href="assets/css/main.css?v=<?php echo microtime();?>">
 </head>
 
 <body ng-controller="HoleAppCtrl">
@@ -22,7 +24,7 @@
     <div class="main" id="map-canvas"></div>
 
     <div class="report-nav">
-        <button class="btn btn-lg btn-material" ng-click="openModalReport()">
+        <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport()">
             <i class="glyphicon glyphicon-plus"></i>
         </button>
     </div>
