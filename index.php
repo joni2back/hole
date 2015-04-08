@@ -39,7 +39,8 @@
         <div id="info-window">
             <h4>{{ infoWindow.data.title }}</h4>
             <p>{{ infoWindow.data.content }}</p>
-            <p>{{ infoWindow.data.address }} ({{ infoWindow.data.zone }})</p>
+            <p>Direccion: {{ infoWindow.data.address }}</p>
+            <p>Barrio / Zona: {{ infoWindow.data.zone }}</p>
             <p>Tamaño: {{ findHoleByValue(infoWindow.data.size).label }}</p>
             <div ng-show="infoWindow.data.photo">
                 <img ng-src="{{ infoWindow.data.photo ? 'backend/web/uploads/' + infoWindow.data.photo : '' }}" alt="" />

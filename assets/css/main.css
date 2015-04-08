@@ -158,3 +158,9 @@ select {
 .modal .modal-footer .badge {
     margin-top: 9px;
 }
+.gm-style-iw {
+  left: 26px !important;
+}
+.gm-style-iw > div {
+  overflow:hidden!important;
+}
