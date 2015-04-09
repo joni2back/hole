@@ -13,7 +13,7 @@ body {
   position: absolute;
   top: 65px;
   bottom: 0;
-  background:#03A9F4;
+  background:url('../img/loading.svg') center center no-repeat;
 }
 input,select,button,.modal,.modal-content,.well,.alert,.dropdown-menu {
   border-radius:0!important;
