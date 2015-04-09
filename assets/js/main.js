@@ -40,7 +40,7 @@
     }]);
 
     var hideAddressBar = function() {
-        if (! window.navigator.userAgent.match('Android|AppleWebKit')) {
+        if (! window.navigator.userAgent.match('Android|iPad|iPhone')) {
             return;
         }
         if (document.documentElement.scrollHeight < window.outerHeight/window.devicePixelRatio) {

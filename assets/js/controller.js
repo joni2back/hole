@@ -81,6 +81,7 @@
 
                 $scope.infoWindowReport.setPosition(pos);
                 $scope.infoWindowReport.open($scope.map);
+                $scope.infoWindow.object.close();
 
                 $scope.contextMenuAddress = '...';
                 $scope.getAddressByPos(pos, function(addressString, results) {
@@ -135,6 +136,7 @@
                 $scope.infoWindow.data = data;
                 $scope.$apply();
                 $scope.infoWindow.object.open($scope.map, marker);
+                $scope.infoWindowReport.close();
             });
 
             $scope.markers.push(marker);

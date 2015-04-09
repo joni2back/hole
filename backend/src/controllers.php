@@ -56,7 +56,7 @@ $app->post('/report', function (Request $request) use ($app) {
     if ($oUploadedFile && ($lat && $lng)) {
         try {
             $image = ImageWorkshop::initFromPath($oUploadedFile->getRealPath());
-            $image->resizeInPixel(320, null, true);
+            $image->resizeInPixel(640, null, true);
             $filename = md5(microtime()) . '.jpg';
             $image->save(UPLOADS_DIR, $filename);
         } catch (\Exception $oExp) {
