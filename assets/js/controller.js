@@ -1,6 +1,5 @@
 (function() {
     angular.module('HoleApp').controller('HoleAppCtrl', ['$scope', '$http', '$mapStyles', function($scope, $http, $mapStyles) {
-
         $scope.lat = -32.9526905;
         $scope.lng = -60.6982761;
         $scope.map = null;
@@ -10,8 +9,8 @@
         $scope.reportStatus = 'main';
         $scope.mapOptions = {
             zoom: 14,
-            maxZoom: 20,
-            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            maxZoom: 19,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
             center: $scope.defaultPos,
             draggableCursor: 'crosshair',
             styles: $mapStyles,

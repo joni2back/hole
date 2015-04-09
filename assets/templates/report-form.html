@@ -8,7 +8,7 @@
                 </button>
                 <h4 class="modal-title">Reportar un bache</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body pb0">
                 <div ng-show="reportStatus != 'done'">
                     <form>
                         <div class="form-group">
@@ -44,7 +44,7 @@
                                     <div class="clearfix">
                                         <div class="relative">
                                             <span class="label label-info" style="position: absolute; right: 47px; top: 8px;">{{ reportForm.uploadFileList[0].name | strLimit : 8 }}</span>
-                                            <button class="btn btn-material btn-photo btn-lg" ng-click="clickCameraUpload()" class="pos-abs-top-right">
+                                            <button class="btn btn-info btn-material btn-photo btn-lg" ng-click="clickCameraUpload()" class="pos-abs-top-right">
                                                 <i class="glyphicon glyphicon-camera"></i>
                                             </button>
                                             <input type="file" accept="image/*" class="form-control transparent pointer pos-abs-top-right" ng-file="reportForm.uploadFileList" />
@@ -75,12 +75,12 @@
             <div class="modal-footer">
                 <div class="pull-left">
                     <div ng-show="reportStatus == 'fail'">
-                        <span class="badge">Ocurrio un error al reportar</span>
+                        <span class="label label-danger">Ocurrio un error al reportar</span>
                     </div>
                 </div>
                 <div class="pull-right">
                     <div ng-show="reportStatus == 'requesting'">
-                        <span class="badge">Cargando.. espere un momento</span>
+                        <span class="label label-info">Cargando.. espere un momento</span>
                     </div>
                     <div ng-show="reportStatus == 'main' || reportStatus == 'fail'">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
