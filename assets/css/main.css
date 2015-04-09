@@ -200,10 +200,11 @@ select {
 }
 #info-window h4 {
   text-transform:capitalize;
+  max-width:300px;
 }
 #info-window img {
   max-height: 240px;
-  max-width: 320px;
+  max-width: 300px;
 }
 @media (min-width: 768px) {
     .modal .modal-dialog {
@@ -212,9 +213,14 @@ select {
     }
 }
 @media (max-width: 768px) {
+    #info-window {
+        max-width:200px!important;
+    }
     #info-window img {
       max-height: 150px;
-      max-width: 200px;
+    }
+    #info-window h4 {
+        font-size:16px;
     }
 }
 .invisible {
