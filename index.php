@@ -21,16 +21,23 @@
 
 <body ng-controller="HoleAppCtrl">
 
+    <div class="title-nav">
+        <div class="clearfix">
+            <div class="col-xs-3">
+                <img src="assets/img/logo-mr.png" alt="" />
+            </div>
+            <div class="col-xs-9 text-right">
+                <h4>Mapa de baches de Rosario</h4>
+            </div>
+        </div>
+    </div>
+
     <div class="main" id="map-canvas"></div>
 
     <div class="report-nav">
         <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport()">
             <i class="glyphicon glyphicon-plus"></i>
         </button>
-    </div>
-
-    <div class="title-nav">
-        <img src="assets/img/logo.png" alt="" />
     </div>
 
     <div ng-include="'assets/templates/report-form.html'"></div>
@@ -47,7 +54,7 @@
             </div>
         </div>
         <div id="info-window-report">
-            <a href="" ng-click="openModalReport()" tabindex="-1">Reportar bache aca ({{ contextMenuAddress }})</a>
+            <a href="" ng-click="openModalReport()" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
         </div>
     </div>
 

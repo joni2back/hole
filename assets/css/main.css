@@ -1,11 +1,19 @@
-html,body,#map-canvas {
+html,body {
   height:100%;
   margin:0;
   padding:0;
   font-family:Roboto;
 }
+body {
+    overflow-x: hidden;
+}
 #map-canvas {
-  width:100%;
+  height: auto;
+  width: 100%;
+  position: absolute;
+  top: 65px;
+  bottom: 0;
+  background:#5BC0DE;
 }
 input,select,button,.modal,.modal-content,.well,.alert,.dropdown-menu {
   border-radius:0!important;
@@ -20,9 +28,13 @@ select {
   z-index:99;
 }
 .title-nav {
-  position:absolute;
-  top:-12px;
-  left:5px;
+  background:#5BC0DE;
+  color:#FFF;
+  padding:5px 0;
+  height:65px;
+}
+.title-nav h4 {
+  margin: 18px 0;
 }
 .report-nav {
   position:absolute;
@@ -127,14 +139,14 @@ select {
   margin-right:12px;
   text-decoration:none;
   display:block;
-  font-size:14px;
+  font-size:13px;
   clear:both;
   font-weight:400;
   line-height:1.42857143;
   color:#333;
   white-space:nowrap;
   position: relative;
-  top: 2px;
+  top: 4px;
 }
 .modal .modal-header {
   background:#5BC0DE;
