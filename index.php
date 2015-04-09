@@ -47,7 +47,7 @@
             </div>
         </div>
         <div id="info-window-report">
-            <a href="" ng-click="openModalReport()" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
+            <a href="" ng-click="openModalReport()" tabindex="-1">Reportar bache aca ({{ contextMenuAddress }})</a>
         </div>
     </div>
 
