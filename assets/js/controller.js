@@ -61,9 +61,7 @@
         $scope.init = function() {
             $scope.map = new google.maps.Map(document.getElementById('map-canvas'), $scope.mapOptions);
             $scope.bindEvents();
-            $scope.parseAjax().success(function() {
-
-            });
+            $scope.parseAjax();
 
             $scope.infoWindow.object = new google.maps.InfoWindow({
                 content: document.getElementById('info-window')
@@ -128,7 +126,7 @@
                 position: pos,
                 map: $scope.map,
                 data: data,
-                icon: 'assets/img/pin.png'
+                icon: 'assets/img/pin.svg'
             });
 
             google.maps.event.addListener(marker, 'click', function() {
@@ -226,7 +224,7 @@
                 angular.forEach(reponse.errors, function(field) {
                     var $el = $('input, select').filter('[ng-file$="' +field.fieldName+ '"], [ng-model$="' +field.fieldName+ '"]');
                     $el.parents('.form-group').find('.input-error').html(field.message);
-                    $el.addClass('validation-error')
+                    $el.addClass('validation-error');
                 });
             } else if (reponse && reponse.type && reponse.type.match('Exception')) {
                 window.alert(reponse.errors[0]);
@@ -242,6 +240,13 @@
             return $http.post('backend/web/delete', theData).success(function(response) {
                 $scope.requesting = false;
             });
+        };
+
+        $scope.onReportSuccess = function(response) {
+            response && $scope.parseAjax();
+            $scope.infoWindowReport.close();
+            $scope.infoWindow.object.close();
+            $scope.reportForm = {};
         };
 
         $scope.report = function() {
@@ -264,11 +269,7 @@
             }).success(function(response) {
                 $scope.requesting = false;
                 $scope.reportStatus = 'done';
-                if (response) {
-                    //update map by aajax clearing and requesting
-                    response && window.location.reload();
-                }
-
+                $scope.onReportSuccess(response);
             }).error(function(response) {
                 $scope.showInputExceptionError(response);
                 $scope.reportStatus = 'fail';
@@ -282,8 +283,14 @@
             });
         };
 
-        $scope.openModalReport = function() {
+        $scope.openModalReport = function(resetValues) {
+            $scope.reportStatus = 'main';
             $('#report').modal('show');
+            if (resetValues) {
+                $scope.reportForm.size = $scope.holeSizes[0].value;
+                $scope.infoWindowReport.close();
+                $scope.infoWindow.object.close();
+            }
         };
 
         $scope.closeModalReport = function() {

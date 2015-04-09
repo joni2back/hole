@@ -35,7 +35,7 @@
     <div class="main" id="map-canvas"></div>
 
     <div class="report-nav">
-        <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport()">
+        <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport(true)">
             <i class="glyphicon glyphicon-plus"></i>
         </button>
     </div>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div id="info-window-report">
-            <a href="" ng-click="openModalReport()" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
+            <a href="" ng-click="openModalReport(true)" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
         </div>
     </div>
 
