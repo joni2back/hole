@@ -33,7 +33,8 @@ CREATE TABLE `holes` (
   `size` tinyint(1) NOT NULL,
   `photo` varchar(64) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
-  `public` tinyint(1) NOT NULL,
+  `date` date NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -44,7 +45,7 @@ CREATE TABLE `holes` (
 
 LOCK TABLES `holes` WRITE;
 /*!40000 ALTER TABLE `holes` DISABLE KEYS */;
-INSERT INTO `holes` VALUES (NULL,-32.935375,-60.738682,'Se encuentra a mitad de cuadra','','Wilde 600','Antartida Argentina',3,'3c2e4e7ec109a93ee01e000df4bbb157.jpg','127.0.0.1',1);
+INSERT INTO `holes` VALUES (NULL,-32.935375,-60.738682,'Se encuentra a mitad de cuadra','','Wilde 600','Antartida Argentina',3,'3c2e4e7ec109a93ee01e000df4bbb157.jpg','127.0.0.1',NOW(), 0);
 /*!40000 ALTER TABLE `holes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

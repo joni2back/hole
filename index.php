@@ -23,40 +23,26 @@
 
     <div class="title-nav">
         <div class="clearfix">
-            <div class="col-xs-3">
-                <img src="assets/img/logo-mr.png" alt="" />
+            <div class="col-xs-6">
+                <div class="pull-left">
+                    <img src="assets/img/logo-mr.png" alt="" />
+                </div>
+                <div class="pull-left mt11">
+                    <button class="btn btn-info" ng-click="template=templates.map">
+                        <i class="glyphicon glyphicon-map-marker"></i> <span class="hidden-xs">MAPA</span>
+                    </button>
+                    <button class="btn btn-info" ng-click="template=templates.list">
+                        <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-xs">LISTA</span>
+                    </button>
+                </div>
             </div>
-            <div class="col-xs-9 text-right">
-                <h4>Mapa de baches de Rosario</h4>
+            <div class="col-xs-6 text-right">
+                <h4>Mapa de baches <span class="hidden-xs">de Rosario</span></h4>
             </div>
         </div>
     </div>
 
-    <div class="main" id="map-canvas"></div>
-
-    <div class="report-nav">
-        <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport(true)">
-            <i class="glyphicon glyphicon-plus"></i>
-        </button>
-    </div>
-
-    <div ng-include="'assets/templates/report-form.html'"></div>
-
-    <div class="hide">
-        <div id="info-window">
-            <h4>{{ infoWindow.data.title }}</h4>
-            <p>{{ infoWindow.data.content }}</p>
-            <p>Direccion: {{ infoWindow.data.address }}</p>
-            <p>Barrio / Zona: {{ infoWindow.data.zone }}</p>
-            <p>Tamaño: {{ findHoleByValue(infoWindow.data.size).label }}</p>
-            <div ng-show="infoWindow.data.photo">
-                <img ng-src="{{ infoWindow.data.photo ? 'backend/web/uploads/' + infoWindow.data.photo : '' }}" alt="" />
-            </div>
-        </div>
-        <div id="info-window-report">
-            <a href="" ng-click="openModalReport(true)" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
-        </div>
-    </div>
+    <div ng-include="template"></div>
 
 </body>
 

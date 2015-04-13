@@ -73,6 +73,7 @@ $app->post('/report', function (Request $request) use ($app) {
         );
     }
 
+    $status = 0;
     $response = $app['db']->insert('holes', array(
         'lat' => $lat,
         'lng' => $lng,
@@ -82,9 +83,13 @@ $app->post('/report', function (Request $request) use ($app) {
         'zone' => $zone,
         'size' => $size,
         'photo' => $filename,
-        'public' => true,
+        'date' => date('Y-m-d'),
+        'status' => $status,
         'ip' => $request->getClientIp()
     ));
+    if (! $response) {
+        throw new \Exception('Ocurrio un error al reportar el bache, intente nuevamente');
+    }
     return new JsonResponse($response);
 });
 

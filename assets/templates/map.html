@@ -1,0 +1,34 @@
+<div ng-init="initMaps(true)" class="main" id="map-canvas"></div>
+
+<div class="report-nav">
+    <button class="btn btn-lg btn-material btn-danger" ng-click="openModalReport(true)">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button>
+</div>
+
+<div ng-include="'assets/templates/report-form.html'"></div>
+
+<div class="hide">
+    <div id="info-window">
+
+        <h4 class="capitalize">{{ infoWindow.data.title }}</h4>
+
+        <p class="mb5">
+            {{ infoWindow.data.address }} - {{ infoWindow.data.zone }} <br />
+            Bache {{ findHoleByValue(infoWindow.data.size).label }}
+
+            <span class="label label-warning" ng-show="infoWindow.data.status==0"><i class="glyphicon glyphicon-time"></i> Sin confirmar</span>
+            <span class="label label-danger" ng-show="infoWindow.data.status==1"><i class="glyphicon glyphicon-remove"></i> Sin arreglar</span>
+            <span class="label label-info" ng-show="infoWindow.data.status==2"><i class="glyphicon glyphicon-ok"></i> Arreglado</span>
+        </p>
+
+        <div ng-show="infoWindow.data.photo">
+            <img ng-src="{{ infoWindow.data.photo ? 'backend/web/uploads/' + infoWindow.data.photo : '' }}" alt="" />
+        </div>
+
+    </div>
+
+    <div id="info-window-report">
+        <a href="" ng-click="openModalReport(true)" tabindex="-1">Reportar aca ({{ contextMenuAddress }})</a>
+    </div>
+</div>

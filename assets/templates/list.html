@@ -1,0 +1,20 @@
+<ul data-ng-repeat="item in markers | orderBy: 'id'" class="media-list">
+    <li class="media">
+        <div class="media-left media-middle" ng-show="item.photo">
+          <img ng-src="{{ item.photo ? 'backend/web/uploads/' + item.photo : '' }}" alt="" />
+        </div>
+        <div class="media-body media-middle">
+            <h4 class="media-heading capitalize">{{ item.title }}</h4>
+            <p>{{ item.content }}</p>
+
+            <p class="mb0">
+                {{ item.address }} - Barrio {{ item.zone }} <br />
+                Bache {{ findHoleByValue(item.size).label }}
+
+                <span class="label label-warning" ng-show="item.status==0"><i class="glyphicon glyphicon-time"></i> Sin confirmar</span>
+                <span class="label label-danger" ng-show="item.status==1"><i class="glyphicon glyphicon-remove"></i> Sin arreglar</span>
+                <span class="label label-info" ng-show="item.status==2"><i class="glyphicon glyphicon-ok"></i> Arreglado</span>
+            </p>
+        </div>
+    </li>
+</ul>

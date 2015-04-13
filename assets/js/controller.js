@@ -7,6 +7,7 @@
         $scope.defaultPos = new google.maps.LatLng($scope.lat, $scope.lng);
         $scope.requesting = false;
         $scope.reportStatus = 'main';
+        $scope.markers = [];
         $scope.mapOptions = {
             zoom: 14,
             maxZoom: 19,
@@ -23,7 +24,11 @@
                 position: google.maps.ControlPosition.TOP_RIGHT
             }
         };
-        $scope.markers = [];
+        $scope.templates = {
+            list: 'assets/templates/list.html',
+            map: 'assets/templates/map.html'
+        };
+        $scope.template = $scope.templates.map;
         $scope.reportForm = {
             address: '',
             zone: '',
@@ -34,7 +39,6 @@
             lng: '',
             uploadFileList: []
         };
-
         $scope.holeSizes = [
             {label: "Chico", value: 1},
             {label: "Mediano", value: 2},
@@ -58,17 +62,29 @@
             data: null
         };
 
+        $scope.initMaps = function(appendMarkers) {
+            var mapCanvas = document.getElementById('map-canvas');
+
+            if (mapCanvas) {
+                $scope.map = new google.maps.Map(
+                    mapCanvas, $scope.mapOptions
+                );
+
+                $scope.infoWindow.object = new google.maps.InfoWindow({
+                    content: document.getElementById('info-window')
+                });
+
+                $scope.infoWindowReport = new google.maps.InfoWindow({
+                    content: document.getElementById("info-window-report")
+                });
+                $scope.bindEvents();
+                appendMarkers && $scope.appendMarkersToMap();
+            }
+        };
+
         $scope.init = function() {
-            $scope.map = new google.maps.Map(document.getElementById('map-canvas'), $scope.mapOptions);
-            $scope.bindEvents();
-            $scope.parseAjax();
-
-            $scope.infoWindow.object = new google.maps.InfoWindow({
-                content: document.getElementById('info-window')
-            });
-
-            $scope.infoWindowReport = new google.maps.InfoWindow({
-                content: document.getElementById("info-window-report")
+            $scope.getServerMarkers().success(function() {
+                $scope.appendMarkersToMap();
             });
         };
 
@@ -92,36 +108,66 @@
         };
 
 
-        $scope.addMarkerByInput = function() {
-            $scope.reportForm.address && $scope.addMarkerByAddress($scope.reportForm.address);
-            $scope.reportForm.address = '';
-        };
-
-        $scope.addMarkerByAddress = function(addressString) {
-            var data = {address: addressString + ", Rosario"};
-            var internalCallback = function(response, status) {
-                try {
-                    response[0].geometry.location && $scope.addMarker(response[0].geometry.location);
-                } catch(e) {
-                }
-            };
-            $scope.geocoder.geocode(data, internalCallback);
-        };
+        //$scope.addMarkerByInput = function() {
+        //    $scope.reportForm.address && $scope.addMarkerByAddress($scope.reportForm.address);
+        //    $scope.reportForm.address = '';
+        //};
+        //
+        //$scope.addMarkerByAddress = function(addressString) {
+        //    var data = {address: addressString + ", Rosario"};
+        //    var internalCallback = function(response, status) {
+        //        try {
+        //            response[0].geometry.location && $scope.addMarker(response[0].geometry.location);
+        //        } catch(e) {
+        //        }
+        //    };
+        //    $scope.geocoder.geocode(data, internalCallback);
+        //};
 
         $scope.getPosByAddress = function(addressString, success, error) {
             var data = {address: addressString + ", Rosario"};
             var internalCallback = function(response, status) {
                 try {
                     var pos = response[0].geometry.location;
-                    response[0].geometry.location && success(response, pos);
-                } catch(e) {
-                    typeof error === 'function' && error(e);
-                }
+                    pos && success(response, pos);
+                    return;
+                } catch(e) {}
+                typeof error === 'function' && error();
             };
             $scope.geocoder.geocode(data, internalCallback);
         };
 
-        $scope.addMarker = function(pos, data) {
+        //$scope.addMarker = function(pos, data) {
+        //    var marker = new google.maps.Marker({
+        //        position: pos,
+        //        map: $scope.map,
+        //        data: data,
+        //        icon: 'assets/img/pin.svg'
+        //    });
+        //
+        //    google.maps.event.addListener(marker, 'click', function() {
+        //        $scope.infoWindow.data = data;
+        //        $scope.$apply();
+        //        $scope.infoWindow.object.open($scope.map, marker);
+        //        $scope.infoWindowReport.close();
+        //    });
+        //
+        //    $scope.markers.push(marker);
+        //};
+
+        //$scope.parseAjax = function() {
+        //    $scope.requesting = true;
+        //    return $http.get('backend/web/list').success(function(response) {
+        //        response && response.length && response.forEach(function(marker) {
+        //            marker.lat = parseFloat(marker.lat);
+        //            marker.lng = parseFloat(marker.lng);
+        //            $scope.map && $scope.addMarker(marker, marker);
+        //        });
+        //        $scope.requesting = false;
+        //    });
+        //};
+
+        $scope.addMarkerIntoMap = function(pos, data) {
             var marker = new google.maps.Marker({
                 position: pos,
                 map: $scope.map,
@@ -136,25 +182,31 @@
                 $scope.infoWindowReport.close();
             });
 
-            $scope.markers.push(marker);
+            return marker;
         };
 
-        $scope.parseAjax = function() {
-            var self = $scope;
+        $scope.appendMarkersToMap = function() {
+            angular.forEach($scope.markers, function(marker) {
+                $scope.addMarkerIntoMap(marker, marker);
+            });
+        };
+
+        $scope.getServerMarkers = function() {
             $scope.requesting = true;
+            $scope.markers = [];
             return $http.get('backend/web/list').success(function(response) {
-                response && response.length && response.forEach(function(marker) {
+                response && response.length && angular.forEach(response, function(marker) {
                     marker.lat = parseFloat(marker.lat);
                     marker.lng = parseFloat(marker.lng);
-                    self.addMarker(marker, marker);
+                    $scope.markers.push(marker);
                 });
                 $scope.requesting = false;
             });
         };
 
         $scope.getPosByGeolocation = function(success, error) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+            if (window.navigator.geolocation) {
+                window.navigator.geolocation.getCurrentPosition(function(position) {
                     var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     typeof success === 'function' && success(pos, position);
                 }, function() {
@@ -277,11 +329,11 @@
             });
         };
 
-        $scope.reportGeo = function() {
-            $scope.getPosByGeolocation(function(pos) {
-                $scope.addMarker(pos);
-            });
-        };
+        //$scope.reportGeo = function() {
+        //    $scope.getPosByGeolocation(function(pos) {
+        //        $scope.addMarker(pos);
+        //    });
+        //};
 
         $scope.openModalReport = function(resetValues) {
             $scope.reportStatus = 'main';
@@ -298,6 +350,6 @@
         };
 
         google.maps.event.addDomListener(window, 'load', $scope.init);
-        scope=$scope;//only for dev
+        scope = $scope;//only for dev
     }]);
 })();
