@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&language=es"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/styles.map.js"></script>
     <script src="assets/js/controller.js"></script>
@@ -25,7 +25,7 @@
         <div class="clearfix">
             <div class="col-xs-6">
                 <div class="pull-left">
-                    <img src="assets/img/logo-mr.png" alt="" />
+                    <img src="assets/img/logo-mr.png" alt="" class="logo" />
                 </div>
                 <div class="pull-left mt11">
                     <button class="btn btn-info" ng-click="template=templates.map">

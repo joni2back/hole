@@ -3,20 +3,35 @@
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Hole\Exception\InputException;
 use Hole\Exception\ExceptionResponseDto;
+use Symfony\Component\Debug\ExceptionHandler;
 
-$app->error(function (\Exception $oExp, $code) {
+class AnyHandler {
+    public static function getRequestFromException(\Exception $oExp) {
+        $httpCode = 500;
 
-    $httpCode = 500;
+        if ($oExp instanceof InputException) {
+            return new JsonResponse(
+                new ExceptionResponseDto(get_class($oExp), $oExp->getFieldErrors()),
+                $httpCode
+            );
+        }
 
-    if ($oExp instanceof InputException) {
         return new JsonResponse(
-            new ExceptionResponseDto(get_class($oExp), $oExp->getFieldErrors()),
+            new ExceptionResponseDto(get_class($oExp), array($oExp->getMessage())),
             $httpCode
         );
     }
+}
 
-    return new JsonResponse(
-        new ExceptionResponseDto(get_class($oExp), array($oExp->getMessage())),
-        $httpCode
-    );
+class FatalHandler extends ExceptionHandler {
+    public function handle(\Exception $oExp) {
+        $response = AnyHandler::getRequestFromException($oExp);
+        $response->send();
+        exit;
+    }
+}
+
+$app->error(function (\Exception $oExp) {
+    return AnyHandler::getRequestFromException($oExp);
 });
+FatalHandler::register(false);

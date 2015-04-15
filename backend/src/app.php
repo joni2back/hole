@@ -38,11 +38,11 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
     return new PlaintextPasswordEncoder();
 });
 
-$app->register(new MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/../resources/log/app.log',
-    'monolog.name'    => 'app',
-    'monolog.level'   => 300 // = Logger::WARNING
-));
+//$app->register(new MonologServiceProvider(), array(
+//    'monolog.logfile' => __DIR__.'/../resources/log/app.log',
+//    'monolog.name'    => 'app',
+//    'monolog.level'   => 300 // = Logger::WARNING
+//));
 
 
 $app->register(new Silex\Provider\DoctrineServiceProvider());

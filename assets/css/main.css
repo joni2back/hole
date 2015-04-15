@@ -33,6 +33,9 @@ select {
   padding:5px 0;
   height:65px;
 }
+.title-nav .logo {
+    margin-right:5px;
+}
 .title-nav h4 {
   margin: 18px 0;
 }

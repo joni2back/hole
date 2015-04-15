@@ -90,6 +90,6 @@ $app->post('/report', function (Request $request) use ($app) {
     if (! $response) {
         throw new \Exception('Ocurrio un error al reportar el bache, intente nuevamente');
     }
-    return new JsonResponse($response);
+    return new JsonResponse(array('success' => $response));
 });
 

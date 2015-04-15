@@ -70,6 +70,8 @@
                     mapCanvas, $scope.mapOptions
                 );
 
+                appendMarkers && $scope.appendMarkersToMap();
+
                 $scope.infoWindow.object = new google.maps.InfoWindow({
                     content: document.getElementById('info-window')
                 });
@@ -78,7 +80,6 @@
                     content: document.getElementById("info-window-report")
                 });
                 $scope.bindEvents();
-                appendMarkers && $scope.appendMarkersToMap();
             }
         };
 
@@ -295,7 +296,7 @@
         };
 
         $scope.onReportSuccess = function(response) {
-            response && $scope.parseAjax();
+            response && $scope.init();
             $scope.infoWindowReport.close();
             $scope.infoWindow.object.close();
             $scope.reportForm = {};
@@ -320,8 +321,12 @@
                 headers: {'Content-Type': undefined}
             }).success(function(response) {
                 $scope.requesting = false;
-                $scope.reportStatus = 'done';
-                $scope.onReportSuccess(response);
+                if (response && response.success) {
+                    $scope.reportStatus = 'done';
+                    $scope.onReportSuccess(response);
+                } else {
+                    $scope.reportStatus = 'fail';
+                }
             }).error(function(response) {
                 $scope.showInputExceptionError(response);
                 $scope.reportStatus = 'fail';
