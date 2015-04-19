@@ -11,7 +11,7 @@ body {
   height: auto;
   width: 100%;
   position: absolute;
-  top: 65px;
+  top: 52px;
   bottom: 0;
   background:url('../img/loading.svg') center center no-repeat;
 }
@@ -31,13 +31,17 @@ select {
   background:#03A9F4;
   color:#FFF;
   padding:5px 0;
-  height:65px;
+  height:52px;
 }
 .title-nav .logo {
     margin-right:5px;
+    width: 42px;
+    height: 42px;
 }
 .title-nav h4 {
-  margin: 18px 0;
+  margin: 12px 0;
+  line-height: 130%;
+  font-size: 16px;
 }
 .report-nav {
   position:absolute;
@@ -60,6 +64,9 @@ select {
 }
 .pb0 {
   padding-bottom:0!important;
+}
+.p5 {
+  padding:5px!important;
 }
 .btn {
   outline:0!important;
@@ -311,5 +318,9 @@ input {
     .media-list .media img {
         width:96px;
         max-height:96px;
+    }
+    .title-nav h4 {
+        line-height: 150%;
+        font-size: 14px;
     }
 }

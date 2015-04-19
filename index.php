@@ -23,11 +23,11 @@
 
     <div class="title-nav">
         <div class="clearfix">
-            <div class="col-xs-6">
+            <div class="col-xs-7">
                 <div class="pull-left">
-                    <img src="assets/img/logo-mr.png" alt="" class="logo" />
+                    <img src="assets/img/logo-mr.svg" alt="" class="logo" />
                 </div>
-                <div class="pull-left mt11">
+                <div class="pull-left p5">
                     <button class="btn btn-info" ng-click="template=templates.map">
                         <i class="glyphicon glyphicon-map-marker"></i> <span class="hidden-xs">MAPA</span>
                     </button>
@@ -36,7 +36,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-xs-6 text-right">
+            <div class="col-xs-5 text-right">
                 <h4>Mapa de baches <span class="hidden-xs">de Rosario</span></h4>
             </div>
         </div>
