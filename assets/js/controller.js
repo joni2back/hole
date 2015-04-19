@@ -46,6 +46,8 @@
             {label: "Enorme", value: 4}
         ];
 
+        $scope.fresh = true;
+
         $scope.findHoleByValue = function(id) {
             var result;
             angular.forEach($scope.holeSizes, function(obj) {
@@ -80,10 +82,12 @@
                     content: document.getElementById("info-window-report")
                 });
                 $scope.bindEvents();
+                $scope.fresh = false;
             }
         };
 
         $scope.init = function() {
+            $scope.template === $scope.templates.map && $scope.fresh && $scope.initMaps();
             $scope.getServerMarkers().success(function() {
                 $scope.appendMarkersToMap();
             });
