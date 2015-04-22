@@ -1,5 +1,5 @@
 ####todo
-- click on map to report
-- mobile fixes
-  - close gmap modal
-  - input exception display
+- enhance list
+- center in location
+- home-screen
+- main-menu
