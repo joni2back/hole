@@ -6,22 +6,26 @@ use Hole\Exception\InputException;
 use PHPImageWorkshop\ImageWorkshop;
 
 $app->before(function (Request $request) {
-    if (! true) {
+    if (false) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
     }
 });
 
 $app->match('/', function () use ($app) {
-    return new JsonResponse();
+    return $app['twig']->render('index.twig', array(
+        'appVersion' => 0.1,
+        'title' => 'Mapa de baches',
+        'from' => 'de Rosario',
+    ));
 })->bind('homepage');
 
-$app->match('/list', function () use ($app) {
+$app->match('/{section}', function () use ($app) {
     $data = $app['db']->fetchAll('SELECT * FROM holes ');
     return new JsonResponse($data);
-});
+})->assert('section', 'list|lista');
 
-$app->match('/delete', function (Request $request) use ($app) {
+$app->match('/{section}', function (Request $request) use ($app) {
     $data = json_decode($request->getContent(), true);
     $request->request->replace(is_array($data) ? $data : array());//ponerlo en el before
 
@@ -33,14 +37,15 @@ $app->match('/delete', function (Request $request) use ($app) {
 
     $response = $app['db']->delete('holes', array('id' => $id));
     return new JsonResponse($response);
-});
+})->assert('section', 'delete|delete2');
 
-$app->post('/report', function (Request $request) use ($app) {
+$app->post('/{section}', function (Request $request) use ($app) {
 
     $oIExp = new InputException();
 
     $lat = $request->request->get('lat');
     $lng = $request->request->get('lng');
+
     $title = $request->request->get('title');
     $address = $request->request->get('address');
     $zone = $request->request->get('zone');
@@ -51,6 +56,9 @@ $app->post('/report', function (Request $request) use ($app) {
     !$address && $oIExp->addFieldError('address', 'Indique un domicilio a ser ubicado en el mapa');
     !$zone && $oIExp->addFieldError('zone', 'Especifique zona o barrio');
     !$size && $oIExp->addFieldError('size');
+    if (! $oUploadedFile) {
+        $oIExp->addFieldError('uploadFileList', 'La foto es requerida');
+    }
 
     $filename = ''; //fix cannot be null
     if ($oUploadedFile && ($lat && $lng)) {
@@ -91,5 +99,5 @@ $app->post('/report', function (Request $request) use ($app) {
         throw new \Exception('Ocurrio un error al reportar el bache, intente nuevamente');
     }
     return new JsonResponse(array('success' => $response));
-});
+})->assert('section', 'report|reportar');
 

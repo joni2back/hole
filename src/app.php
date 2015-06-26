@@ -38,6 +38,11 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
     return new PlaintextPasswordEncoder();
 });
 
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__.'/views',
+));
+
+
 //$app->register(new MonologServiceProvider(), array(
 //    'monolog.logfile' => __DIR__.'/../resources/log/app.log',
 //    'monolog.name'    => 'app',

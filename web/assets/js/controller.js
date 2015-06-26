@@ -199,7 +199,7 @@
         $scope.getServerMarkers = function() {
             $scope.requesting = true;
             $scope.markers = [];
-            return $http.get('backend/web/list').success(function(response) {
+            return $http.get('list').success(function(response) {
                 response && response.length && angular.forEach(response, function(marker) {
                     marker.lat = parseFloat(marker.lat);
                     marker.lng = parseFloat(marker.lng);
@@ -294,7 +294,7 @@
                 id: id
             };
 
-            return $http.post('backend/web/delete', theData).success(function(response) {
+            return $http.post('delete', theData).success(function(response) {
                 $scope.requesting = false;
             });
         };
@@ -320,7 +320,7 @@
 
             $scope.requesting = true;
             $scope.reportStatus = 'requesting';
-            return $http.post('backend/web/report', form, {
+            return $http.post('report', form, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).success(function(response) {
