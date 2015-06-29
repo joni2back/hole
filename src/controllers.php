@@ -56,8 +56,13 @@ $app->post('/{section}', function (Request $request) use ($app) {
     !$address && $oIExp->addFieldError('address', 'Indique un domicilio a ser ubicado en el mapa');
     !$zone && $oIExp->addFieldError('zone', 'Especifique zona o barrio');
     !$size && $oIExp->addFieldError('size');
-    if (! $oUploadedFile) {
+    
+    if ($oUploadedFile == false) {
         $oIExp->addFieldError('uploadFileList', 'La foto es requerida');
+    }
+
+    if (is_object($oUploadedFile) && $oUploadedFile->getError()) {
+        $oIExp->addFieldError('uploadFileList', $oUploadedFile->getError());
     }
 
     $filename = ''; //fix cannot be null

@@ -206,6 +206,10 @@
                     $scope.markers.push(marker);
                 });
                 $scope.requesting = false;
+            }).error(function(response) {
+                angular.forEach(response.errors, function(errorMsg) {
+                    window.alert(errorMsg);
+                });
             });
         };
 
@@ -241,15 +245,19 @@
         };
 
         $scope.isPosFromRosario = function(pos) {
-            return (pos.k+"").match('^\-(32|33)') && (pos.D+"").match('^\-(60)');
+            var lat = pos[Object.keys(pos)[0]];
+            var lng = pos[Object.keys(pos)[1]];
+            return (lat+"").match('^\-(32|33)') && (lng+"").match('^\-(60)');
         };
 
         $scope.parseValuesByMapsResult = function(results, pos) {
             $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
             $scope.reportForm.zone = results[0].address_components[2].long_name;
             if ($scope.isPosFromRosario(pos)) {
-                $scope.reportForm.lat = pos.k;
-                $scope.reportForm.lng = pos.D;
+                var lat = pos[Object.keys(pos)[0]];
+                var lng = pos[Object.keys(pos)[1]];
+                $scope.reportForm.lat = lat;
+                $scope.reportForm.lng = lng;
             } else {
                 $scope.reportForm.lat = '';
                 $scope.reportForm.lng = '';
@@ -309,7 +317,7 @@
         $scope.report = function() {
             $('.input-error').html('');
             var form = new FormData();
-
+console.info($scope.reportForm);
             angular.forEach($scope.reportForm, function(value, key) {
                 form.append(key, value);
             });

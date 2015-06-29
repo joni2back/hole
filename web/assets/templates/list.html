@@ -1,7 +1,7 @@
 <ul data-ng-repeat="item in markers | orderBy: 'id'" class="media-list">
     <li class="media">
         <div class="media-left media-middle" ng-show="item.photo">
-          <img ng-src="{{ item.photo ? 'backend/web/uploads/' + item.photo : '' }}" alt="" />
+          <img ng-src="{{ item.photo ? 'uploads/' + item.photo : '' }}" alt="" />
         </div>
         <div class="media-body media-middle">
             <h4 class="media-heading capitalize">{{ item.title }}</h4>
