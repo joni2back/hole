@@ -14,7 +14,7 @@
         };
     });
 
-    HoleApp.directive('ngFile', function($parse) {
+    HoleApp.directive('ngFile', ['$parse', function($parse) {
         return {
             restrict: 'A',
             link: function(scope, element, attrs) {
@@ -28,7 +28,7 @@
                 });
             }
         };
-    });
+    }]);
 
     HoleApp.filter('strLimit', ['$filter', function($filter) {
         return function(input, limit) {

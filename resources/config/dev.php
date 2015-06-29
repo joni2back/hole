@@ -13,10 +13,10 @@ $app['twig.options.cache'] = $app['cache.path'] . '/twig';
 // Doctrine (db)
 $app['db.options'] = array(
     'driver'   => 'pdo_mysql',
-    'host'     => 'localhost',
-    'dbname'   => 'px000502_hole',
-    'user'     => 'px000502_hole',
-    'password' => 'Abc123##',
+    'host'     => '127.0.0.1',
+    'dbname'   => 'hole',
+    'user'     => 'root',
+    'password' => 'root',
 );
 // User
 $app['security.users'] = array('username' => array('ROLE_USER', 'password'));

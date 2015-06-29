@@ -317,7 +317,6 @@
         $scope.report = function() {
             $('.input-error').html('');
             var form = new FormData();
-console.info($scope.reportForm);
             angular.forEach($scope.reportForm, function(value, key) {
                 form.append(key, value);
             });
