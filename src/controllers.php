@@ -15,7 +15,7 @@ $app->before(function (Request $request) {
 $app->match('/', function () use ($app) {
     return $app['twig']->render('index.twig', array(
         'appVersion' => 0.1,
-        'title' => 'Mapa de baches',
+        'title' => 'TDA',
         'from' => 'de Rosario',
     ));
 })->bind('homepage');

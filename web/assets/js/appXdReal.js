@@ -245,8 +245,8 @@
         };
 
         $scope.isPosFromRosario = function(pos) {
-            var lat = pos[Object.keys(pos)[0]];
-            var lng = pos[Object.keys(pos)[1]];
+            var lat = pos.lat();
+            var lng = pos.lng();
             return (lat+"").match('^\-(32|33)') && (lng+"").match('^\-(60)');
         };
 
@@ -254,8 +254,8 @@
             $scope.reportForm.visibleAddress = results[0].formatted_address.split(',')[0];
             $scope.reportForm.zone = results[0].address_components[2].long_name;
             if ($scope.isPosFromRosario(pos)) {
-                var lat = pos[Object.keys(pos)[0]];
-                var lng = pos[Object.keys(pos)[1]];
+                var lat = pos.lat();
+                var lng = pos.lng();
                 $scope.reportForm.lat = lat;
                 $scope.reportForm.lng = lng;
             } else {
